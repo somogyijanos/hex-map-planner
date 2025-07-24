@@ -11,7 +11,8 @@ export function createDefaultMapConfig(): MapConfig {
     showGrid: true,
     gridSize: 50, // Now this is the actual visual size
     gridOpacity: 0.4,
-    backgroundColor: 'hsl(var(--background))',
+    backgroundColor: '#ffffff',
+    gridColor: '#e2e8f0',
     centerPosition: { x: 400, y: 300 },
     zoom: 1
   };

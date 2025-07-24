@@ -10,6 +10,7 @@ interface HexGridProps {
   hexSize: number; // This is the visual size (effectiveHexSize * totalZoom)
   opacity?: number;
   visible?: boolean;
+  gridColor?: string;
 }
 
 export function HexGrid({
@@ -17,7 +18,8 @@ export function HexGrid({
   viewportSize,
   hexSize,
   opacity = 0.3,
-  visible = true
+  visible = true,
+  gridColor = '#e2e8f0'
 }: HexGridProps) {
   if (!visible) return null;
 
@@ -63,10 +65,9 @@ export function HexGrid({
             key={`grid-${hex.q}-${hex.r}`}
             d={hexPath}
             fill="none"
-            stroke="currentColor"
+            stroke={gridColor}
             strokeWidth={strokeWidth}
-            className="pointer-events-none text-border"
-            style={{ color: 'hsl(var(--border))' }}
+            className="pointer-events-none"
           />
         );
       })}

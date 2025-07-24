@@ -3,10 +3,10 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { HexMap, Tile, TileType, AddOn, MapState, MapConfig } from '../types/map';
 import { MapCanvas } from './map/MapCanvas';
-import { QuickActions } from '../ui/QuickActions';
+import { MapToolbar } from '../ui/MapToolbar';
 import { ContentPanel } from '../ui/ContentPanel';
 import { SettingsPanel } from '../ui/SettingsPanel';
-import { createNewMap, saveMapToStorage } from '../lib/mapStorage';
+import { createNewMap } from '../lib/mapStorage';
 
 // Props interface for the HexMapPlanner component
 export interface HexMapPlannerProps {
@@ -316,14 +316,7 @@ export function HexMapPlanner({
     }));
   }, [config]);
 
-  const handleSaveMap = useCallback(() => {
-    try {
-      saveMapToStorage(currentMap);
-      toast('success', 'Map saved successfully!');
-    } catch (error) {
-      toast('error', 'Failed to save map: ' + (error as Error).message);
-    }
-  }, [currentMap, toast]);
+
 
   const handleLoadMap = useCallback((map: HexMap) => {
     setCurrentMap(map);
@@ -361,21 +354,7 @@ export function HexMapPlanner({
     setMapResetView(() => resetFn);
   }, []);
 
-  // Auto-save every 30 seconds
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (currentMap.tiles.length > 0) {
-        try {
-          saveMapToStorage(currentMap);
-          console.log('Auto-saved map');
-        } catch (error) {
-          console.error('Auto-save failed:', error);
-        }
-      }
-    }, 30000);
 
-    return () => clearInterval(interval);
-  }, [currentMap]);
 
   return (
     <div className={`flex h-screen bg-background ${className}`}>
@@ -392,16 +371,6 @@ export function HexMapPlanner({
         {/* Scrollable Content */}
         <div className="flex-1 overflow-auto">
           <div className="p-4 space-y-4">
-            {/* Quick Actions - Most frequently used */}
-            <QuickActions
-              mapState={mapState}
-              currentMap={currentMap}
-              onModeChange={handleModeChange}
-              onSaveMap={handleSaveMap}
-              onClearMap={handleClearMap}
-              onResetView={handleResetView}
-            />
-
             {/* Content Panel - Tile types and add-ons with better organization */}
             <ContentPanel
               tileTypes={currentMap.tileTypes}
@@ -430,25 +399,37 @@ export function HexMapPlanner({
               config={config}
               currentMap={currentMap}
               onConfigChange={handleConfigChange}
-              onLoadMap={handleLoadMap}
             />
           </div>
         </div>
       </div>
 
-      {/* Main Canvas */}
-      <div className="flex-1 relative">
-        <MapCanvas
-          tiles={currentMap.tiles}
-          config={config}
+      {/* Main Canvas Area */}
+      <div className="flex-1 flex flex-col">
+        {/* Toolbar */}
+        <MapToolbar
           mapState={mapState}
-          onTileAdd={handleTileAdd}
-          onTileUpdate={handleTileUpdate}
-          onTileDelete={handleTileDelete}
-          onTileSelect={handleTileSelect}
-          onTileDragStateChange={handleTileDragStateChange}
-          onResetViewRef={handleMapResetViewRef}
+          currentMap={currentMap}
+          onModeChange={handleModeChange}
+          onLoadMap={handleLoadMap}
+          onClearMap={handleClearMap}
+          onResetView={handleResetView}
         />
+        
+        {/* Canvas */}
+        <div className="flex-1 relative">
+          <MapCanvas
+            tiles={currentMap.tiles}
+            config={config}
+            mapState={mapState}
+            onTileAdd={handleTileAdd}
+            onTileUpdate={handleTileUpdate}
+            onTileDelete={handleTileDelete}
+            onTileSelect={handleTileSelect}
+            onTileDragStateChange={handleTileDragStateChange}
+            onResetViewRef={handleMapResetViewRef}
+          />
+        </div>
       </div>
     </div>
   );

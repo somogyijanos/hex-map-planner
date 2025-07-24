@@ -3,31 +3,25 @@
 import React, { useState } from 'react';
 import { MapConfig, HexMap } from '../types/map';
 import { Card, CardContent, CardHeader, CardTitle } from './card';
-import { Button } from './button';
 import { Switch } from './switch';
 import { Label } from './label';
 import { Separator } from './separator';
-import { Input } from './input';
+import { Slider } from './slider';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './select';
 import { 
   Grid3X3, 
-  Download, 
-  Upload, 
   Settings, 
   HelpCircle,
   ChevronDown,
   ChevronRight,
-  FileText,
   Info
 } from 'lucide-react';
-
-import { exportMapAsJSON, importMapFromJSON } from '../lib/mapStorage';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './tooltip';
+import { TooltipProvider } from './tooltip';
 
 interface SettingsPanelProps {
   config: MapConfig;
   currentMap: HexMap;
   onConfigChange: (config: Partial<MapConfig>) => void;
-  onLoadMap: (map: HexMap) => void;
   className?: string;
 }
 
@@ -35,13 +29,10 @@ export function SettingsPanel({
   config,
   currentMap,
   onConfigChange,
-  onLoadMap,
   className = ''
 }: SettingsPanelProps) {
-  const fileInputRef = React.useRef<HTMLInputElement>(null);
   const [openSections, setOpenSections] = useState({
     grid: false,
-    file: false,
     help: false
   });
 
@@ -50,35 +41,6 @@ export function SettingsPanel({
       ...prev,
       [section]: !prev[section]
     }));
-  };
-
-  const handleExportJSON = () => {
-    try {
-      exportMapAsJSON(currentMap);
-    } catch (error) {
-      alert('Failed to export map: ' + (error as Error).message);
-    }
-  };
-
-  const handleImportJSON = () => {
-    fileInputRef.current?.click();
-  };
-
-  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-
-    try {
-      const map = await importMapFromJSON(file);
-      onLoadMap(map);
-    } catch (error) {
-      alert('Failed to import map: ' + (error as Error).message);
-    } finally {
-      // Reset file input
-      if (fileInputRef.current) {
-        fileInputRef.current.value = '';
-      }
-    }
   };
 
   return (
@@ -121,110 +83,99 @@ export function SettingsPanel({
                   </div>
                   
                   <div className="space-y-2">
-                    <Label htmlFor="grid-size" className="text-xs text-muted-foreground">
-                      Visual Size: {config.gridSize}px
-                    </Label>
-                    <input
-                      id="grid-size"
-                      type="range"
-                      min="20"
-                      max="120"
-                      value={config.gridSize}
-                      onChange={(e) => onConfigChange({ gridSize: parseInt(e.target.value) })}
-                      className="w-full"
-                    />
-                    <div className="text-xs text-muted-foreground/80">
-                      Controls the actual visual size of hex tiles
-                    </div>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="grid-opacity" className="text-xs text-muted-foreground">
+                    <Label className="text-xs text-muted-foreground">
                       Opacity: {Math.round(config.gridOpacity * 100)}%
                     </Label>
-                    <input
-                      id="grid-opacity"
-                      type="range"
-                      min="0"
-                      max="1"
-                      step="0.1"
-                      value={config.gridOpacity}
-                      onChange={(e) => onConfigChange({ gridOpacity: parseFloat(e.target.value) })}
+                    <Slider
+                      value={[config.gridOpacity]}
+                      onValueChange={([value]) => onConfigChange({ gridOpacity: value })}
+                      max={1}
+                      min={0}
+                      step={0.1}
                       className="w-full"
                     />
                   </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="bg-color" className="text-xs text-muted-foreground">
-                      Background Color
-                    </Label>
-                    <Input
-                      id="bg-color"
-                      value={config.backgroundColor || '#ffffff'}
-                      onChange={(e) => onConfigChange({ backgroundColor: e.target.value })}
-                      placeholder="Background color"
-                      className="text-xs"
-                    />
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-
-          <Separator />
-
-          {/* File Operations */}
-          <div>
-            <button 
-              className="flex items-center justify-between w-full p-4 hover:bg-muted transition-colors"
-              onClick={() => toggleSection('file')}
-            >
-              <div className="flex items-center gap-2">
-                <FileText className="h-4 w-4" />
-                <span className="text-sm font-medium">File Operations</span>
-              </div>
-              {openSections.file ? (
-                <ChevronDown className="h-4 w-4" />
-              ) : (
-                <ChevronRight className="h-4 w-4" />
-              )}
-            </button>
-            {openSections.file && (
-              <div className="px-4 pb-4">
-                <div className="space-y-2">
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={handleExportJSON}
-                        className="w-full flex items-center gap-2"
+                  <div className="space-y-3">
+                    <div className="space-y-2">
+                      <Label className="text-xs text-muted-foreground">
+                        Background Color
+                      </Label>
+                      <Select
+                        value={config.backgroundColor || '#ffffff'}
+                        onValueChange={(value) => onConfigChange({ backgroundColor: value })}
                       >
-                        <Download className="h-4 w-4" />
-                        Export JSON
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>Download map as JSON file</TooltipContent>
-                  </Tooltip>
+                        <SelectTrigger className="h-8 text-xs">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {[
+                            { value: '#ffffff', label: 'Pure White' },
+                            { value: '#f8fafc', label: 'Slate 50' },
+                            { value: '#f1f5f9', label: 'Slate 100' },
+                            { value: '#e2e8f0', label: 'Slate 200' },
+                            { value: '#64748b', label: 'Slate 500' },
+                            { value: '#475569', label: 'Slate 600' },
+                            { value: '#334155', label: 'Slate 700' },
+                            { value: '#1e293b', label: 'Slate 800' },
+                            { value: '#0f172a', label: 'Slate 900' },
+                            { value: '#18181b', label: 'Zinc 900' },
+                            { value: '#27272a', label: 'Zinc 800' },
+                            { value: '#3f3f46', label: 'Zinc 700' }
+                          ].map((color) => (
+                            <SelectItem key={color.value} value={color.value}>
+                              <div className="flex items-center gap-2">
+                                <div 
+                                  className="w-4 h-4 rounded border border-border"
+                                  style={{ backgroundColor: color.value }}
+                                />
+                                <span>{color.label}</span>
+                              </div>
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
 
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={handleImportJSON}
-                        className="w-full flex items-center gap-2"
+                    <div className="space-y-2">
+                      <Label className="text-xs text-muted-foreground">
+                        Grid Color
+                      </Label>
+                      <Select
+                        value={config.gridColor || '#e2e8f0'}
+                        onValueChange={(value) => onConfigChange({ gridColor: value })}
                       >
-                        <Upload className="h-4 w-4" />
-                        Import JSON
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>Load map from JSON file</TooltipContent>
-                  </Tooltip>
-
-                  <div className="pt-2 text-xs text-muted-foreground">
-                    <p>Export your map to share or backup.</p>
-                    <p>Import to load saved maps.</p>
+                        <SelectTrigger className="h-8 text-xs">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {[
+                            { value: '#e2e8f0', label: 'Light Gray' },
+                            { value: '#cbd5e1', label: 'Gray' },
+                            { value: '#94a3b8', label: 'Medium Gray' },
+                            { value: '#64748b', label: 'Dark Gray' },
+                            { value: '#475569', label: 'Darker Gray' },
+                            { value: '#334155', label: 'Very Dark Gray' },
+                            { value: '#000000', label: 'Black' },
+                            { value: '#ffffff', label: 'White' },
+                            { value: '#3b82f6', label: 'Blue' },
+                            { value: '#10b981', label: 'Green' },
+                            { value: '#f59e0b', label: 'Orange' },
+                            { value: '#ef4444', label: 'Red' }
+                          ].map((color) => (
+                            <SelectItem key={color.value} value={color.value}>
+                              <div className="flex items-center gap-2">
+                                <div 
+                                  className="w-4 h-4 rounded border border-border"
+                                  style={{ backgroundColor: color.value }}
+                                />
+                                <span>{color.label}</span>
+                              </div>
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -314,7 +265,7 @@ export function SettingsPanel({
                       <p>• Create tile types first, then place them on the map</p>
                       <p>• Add-ons can be placed on existing tiles</p>
                       <p>• Use different heights for 3D visual effects</p>
-                      <p>• Auto-save runs every 30 seconds</p>
+                      <p>• Use Export to save maps as files</p>
                     </div>
                   </div>
                 </div>
@@ -358,15 +309,6 @@ export function SettingsPanel({
             </div>
           </div>
         </CardContent>
-
-        {/* Hidden file input */}
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept=".json"
-          onChange={handleFileChange}
-          className="hidden"
-        />
       </Card>
     </TooltipProvider>
   );

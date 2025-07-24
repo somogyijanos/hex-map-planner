@@ -9,21 +9,22 @@ import {
   MousePointer, 
   Plus, 
   Trash2, 
-  Save, 
   RotateCcw,
   Home,
   Hand,
   Move,
-
+  Download,
+  Upload
 } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './tooltip';
+import { exportMapAsJSON, importMapFromJSON } from '../lib/mapStorage';
 
 interface QuickActionsProps {
   mapState: MapState;
   currentMap: HexMap;
   onModeChange: (mode: 'add' | 'select' | 'drag' | 'pan' | 'remove') => void;
-  onSaveMap: () => void;
+  onLoadMap: (map: HexMap) => void;
   onClearMap: () => void;
   onResetView: () => void;
   className?: string;
@@ -71,14 +72,45 @@ export function QuickActions({
   mapState,
   currentMap,
   onModeChange,
-  onSaveMap,
+  onLoadMap,
   onClearMap,
   onResetView,
   className = ''
 }: QuickActionsProps) {
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
+
   const handleClear = () => {
     if (confirm('Clear all tiles? This action cannot be undone.')) {
       onClearMap();
+    }
+  };
+
+  const handleExportJSON = () => {
+    try {
+      exportMapAsJSON(currentMap);
+    } catch (error) {
+      alert('Failed to export map: ' + (error as Error).message);
+    }
+  };
+
+  const handleImportJSON = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    try {
+      const map = await importMapFromJSON(file);
+      onLoadMap(map);
+    } catch (error) {
+      alert('Failed to import map: ' + (error as Error).message);
+    } finally {
+      // Reset file input
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
     }
   };
 
@@ -154,70 +186,85 @@ export function QuickActions({
         {/* Quick Actions */}
         <div>
           <h3 className="text-sm font-semibold mb-3">Quick Actions</h3>
-          <div className="grid grid-cols-3 gap-2">
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={onSaveMap}
-                  className="flex flex-col gap-1 h-auto py-2"
-                >
-                  <Save className="h-4 w-4" />
-                  <span className="text-xs">Save</span>
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>Save map to browser storage</TooltipContent>
-            </Tooltip>
+          <div className="space-y-2">
+            {/* First row - File operations */}
+            <div className="grid grid-cols-2 gap-2">
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={handleExportJSON}
+                    className="flex flex-col gap-1 h-auto py-2"
+                  >
+                    <Download className="h-4 w-4" />
+                    <span className="text-xs">Export</span>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>Download map as JSON file</TooltipContent>
+              </Tooltip>
 
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={onResetView}
-                  className="flex flex-col gap-1 h-auto py-2"
-                >
-                  <Home className="h-4 w-4" />
-                  <span className="text-xs">Reset</span>
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>Reset camera to center</TooltipContent>
-            </Tooltip>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={handleImportJSON}
+                    className="flex flex-col gap-1 h-auto py-2"
+                  >
+                    <Upload className="h-4 w-4" />
+                    <span className="text-xs">Import</span>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>Load map from JSON file</TooltipContent>
+              </Tooltip>
+            </div>
 
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={handleClear}
-                  className="flex flex-col gap-1 h-auto py-2 text-destructive hover:text-destructive"
-                >
-                  <RotateCcw className="h-4 w-4" />
-                  <span className="text-xs">Clear</span>
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>Clear all tiles</TooltipContent>
-            </Tooltip>
+            {/* Second row - View and edit operations */}
+            <div className="grid grid-cols-2 gap-2">
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={onResetView}
+                    className="flex flex-col gap-1 h-auto py-2"
+                  >
+                    <Home className="h-4 w-4" />
+                    <span className="text-xs">Reset</span>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>Reset camera to center</TooltipContent>
+              </Tooltip>
+
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={handleClear}
+                    className="flex flex-col gap-1 h-auto py-2 text-destructive hover:text-destructive"
+                  >
+                    <RotateCcw className="h-4 w-4" />
+                    <span className="text-xs">Clear</span>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>Clear all tiles</TooltipContent>
+              </Tooltip>
+            </div>
           </div>
         </div>
 
-        <Separator />
 
-        {/* Status */}
-        <div>
-          <h3 className="text-sm font-semibold mb-2">Status</h3>
-          <div className="grid grid-cols-2 gap-4 text-xs text-muted-foreground">
-            <div className="flex justify-between">
-              <span>Tiles:</span>
-              <span className="font-mono font-medium">{currentMap.tiles.length}</span>
-            </div>
-            <div className="flex justify-between">
-              <span>Types:</span>
-              <span className="font-mono font-medium">{currentMap.tileTypes.length}</span>
-            </div>
-          </div>
-        </div>
+
+        {/* Hidden file input */}
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept=".json"
+          onChange={handleFileChange}
+          className="hidden"
+        />
       </div>
     </TooltipProvider>
   );

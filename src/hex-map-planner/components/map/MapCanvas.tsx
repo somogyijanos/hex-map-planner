@@ -434,6 +434,7 @@ export function MapCanvas({
               hexSize={effectiveHexSize * zoomLevel}
               opacity={config.gridOpacity}
               visible={config.showGrid}
+              gridColor={config.gridColor}
             />
           )}
         </g>

@@ -49,6 +49,7 @@ export interface MapConfig {
   gridSize: number; // hex size in pixels
   gridOpacity: number;
   backgroundColor: string;
+  gridColor: string;
   centerPosition: PixelCoordinate;
   zoom: number;
 }
