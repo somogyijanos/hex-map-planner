@@ -74,6 +74,14 @@ export function HexMapPlanner() {
     }));
   }, []);
 
+  const handleTileDragStateChange = useCallback((draggedTile: Tile | null) => {
+    setMapState(prev => ({
+      ...prev,
+      draggedTile,
+      isDragging: draggedTile !== null
+    }));
+  }, []);
+
   // Tile type operations
   const handleTileTypeAdd = useCallback((tileType: TileType) => {
     setCurrentMap(prev => ({
@@ -410,6 +418,7 @@ export function HexMapPlanner() {
           onTileUpdate={handleTileUpdate}
           onTileDelete={handleTileDelete}
           onTileSelect={handleTileSelect}
+          onTileDragStateChange={handleTileDragStateChange}
           onResetViewRef={handleMapResetViewRef}
         />
       </div>

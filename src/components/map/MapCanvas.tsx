@@ -15,6 +15,7 @@ interface MapCanvasProps {
   onTileUpdate: (tile: Tile) => void;
   onTileDelete: (tileId: string) => void;
   onTileSelect: (tile: Tile | null) => void;
+  onTileDragStateChange: (draggedTile: Tile | null) => void;
   onResetViewRef?: (resetFn: () => void) => void;
   className?: string;
 }
@@ -27,6 +28,7 @@ export function MapCanvas({
   onTileUpdate,
   onTileDelete,
   onTileSelect,
+  onTileDragStateChange,
   onResetViewRef,
   className = ''
 }: MapCanvasProps) {
@@ -291,7 +293,8 @@ export function MapCanvas({
     setDragStart({ x: event.clientX, y: event.clientY });
     setDraggedTile(tile);
     onTileSelect(tile);
-  }, [onTileSelect, mapState.mode]);
+    onTileDragStateChange(tile);
+  }, [onTileSelect, onTileDragStateChange, mapState.mode]);
 
   // Pan the camera
   const handleMouseDown = useCallback((event: React.MouseEvent<SVGSVGElement>) => {
@@ -328,9 +331,8 @@ export function MapCanvas({
           );
           
           if (!existingTileAtNewPos) {
-            // Update the dragged tile's position
+            // Update only the local dragged tile state, don't update the main tiles array yet
             const updatedTile = { ...draggedTile, position: newHexPos };
-            onTileUpdate(updatedTile);
             setDraggedTile(updatedTile);
           }
         }
@@ -352,11 +354,17 @@ export function MapCanvas({
   const handleMouseUp = useCallback((event: React.MouseEvent<SVGSVGElement>) => {
     if (isDragging) {
       event.preventDefault();
+      
+      // If we were dragging a tile, commit the position change
+      if (draggedTile) {
+        onTileUpdate(draggedTile);
+      }
     }
     setIsDragging(false);
     setDragStart(null);
     setDraggedTile(null);
-  }, [isDragging]);
+    onTileDragStateChange(null);
+  }, [isDragging, draggedTile, onTileUpdate, onTileDragStateChange]);
 
   // Prevent context menu on right click
   const handleContextMenu = useCallback((event: React.MouseEvent<SVGSVGElement>) => {
@@ -370,16 +378,19 @@ export function MapCanvas({
   // Transform tiles to screen coordinates
   const transformedTiles = useMemo(() => {
     return tiles.map(tile => {
-      const pixelPos = axialToPixel(tile.position, BASE_HEX_SIZE);
+      // If this tile is being dragged, use the dragged position if available
+      const position = draggedTile?.id === tile.id ? draggedTile.position : tile.position;
+      const pixelPos = axialToPixel(position, BASE_HEX_SIZE);
       return {
         ...tile,
+        position, // Use the updated position for the dragged tile
         screenPosition: {
           x: pixelPos.x * totalZoom + cameraPosition.x + viewportSize.width / 2,
           y: pixelPos.y * totalZoom + cameraPosition.y + viewportSize.height / 2
         }
       };
     });
-  }, [tiles, cameraPosition, viewportSize, totalZoom]);
+  }, [tiles, cameraPosition, viewportSize, totalZoom, draggedTile]);
 
   // Filter visible tiles for performance - memoized
   const visibleTiles = useMemo(() => {

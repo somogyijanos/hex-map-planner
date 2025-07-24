@@ -127,19 +127,16 @@ export function HexTile({
     }
   };
 
-  return (
-    <TooltipProvider>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <g
-            className={cn(
-              isSelected && "drop-shadow-lg",
-              isHovered && "filter brightness-110",
-              isDragging && "opacity-50"
-            )}
-            onClick={handleClick}
-            onMouseDown={handleMouseDown}
-          >
+  const tileContent = (
+    <g
+      className={cn(
+        isSelected && "drop-shadow-lg",
+        isHovered && "filter brightness-110",
+        isDragging && "opacity-50"
+      )}
+      onClick={handleClick}
+      onMouseDown={handleMouseDown}
+    >
             {/* Shadow for height effect */}
             {tile.type.height > 0 && size > 25 && ( // Only render shadow when zoomed in enough
               <path
@@ -257,6 +254,18 @@ export function HexTile({
               </g>
             )}
           </g>
+  );
+
+  // Don't show tooltip during dragging to prevent rendering interference
+  if (isDragging) {
+    return tileContent;
+  }
+
+  return (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          {tileContent}
         </TooltipTrigger>
         
         <TooltipContent side="top" className="max-w-48">
