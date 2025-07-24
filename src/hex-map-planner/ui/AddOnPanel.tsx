@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from './card';
 import { Button } from './button';
 import { Input } from './input';
 import { Label } from './label';
-import { Badge } from './badge';
+
 import { Separator } from './separator';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from './dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './select';

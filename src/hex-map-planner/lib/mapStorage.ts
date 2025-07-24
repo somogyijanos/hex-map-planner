@@ -1,4 +1,4 @@
-import { HexMap, Tile, TileType, AddOn, MapConfig, DEFAULT_TILE_TYPES, DEFAULT_ADDONS } from '../types/map';
+import { HexMap, MapConfig, DEFAULT_TILE_TYPES, DEFAULT_ADDONS } from '../types/map';
 
 // Generate unique IDs
 export function generateId(): string {
@@ -164,7 +164,7 @@ export function importMapFromJSON(file: File): Promise<HexMap> {
         if (!map.addOns) map.addOns = [...DEFAULT_ADDONS];
         
         resolve(map);
-      } catch (error) {
+      } catch {
         reject(new Error('Failed to parse JSON file'));
       }
     };

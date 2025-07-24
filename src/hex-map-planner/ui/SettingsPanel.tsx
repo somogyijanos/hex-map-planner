@@ -19,7 +19,7 @@ import {
   FileText,
   Info
 } from 'lucide-react';
-import { cn } from '../lib/utils';
+
 import { exportMapAsJSON, importMapFromJSON } from '../lib/mapStorage';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './tooltip';
 

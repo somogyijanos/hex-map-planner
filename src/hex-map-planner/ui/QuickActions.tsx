@@ -14,7 +14,7 @@ import {
   Home,
   Hand,
   Move,
-  Play
+
 } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './tooltip';

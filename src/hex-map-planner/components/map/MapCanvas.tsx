@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useCallback, useEffect, useMemo, useLayoutEffect } from 'react';
-import { Tile, TileType, AddOn, MapConfig, AxialCoordinate, PixelCoordinate, MapState } from '../../types/map';
+import { Tile, MapConfig, PixelCoordinate, MapState } from '../../types/map';
 import { HexTile } from './HexTile';
 import { HexGrid } from './HexGrid';
 import { pixelToAxial, axialToPixel, hexEqual } from '../../lib/hexMath';
@@ -179,17 +179,14 @@ export function MapCanvas({
     }
   }, [onResetViewRef, resetView]);
 
-  // Create a ref to expose resetView function
-  const resetViewRef = useCallback(() => {
-    resetView();
-  }, [resetView]);
+
 
   // Notify parent of resetView function on mount
   useEffect(() => {
     if (onResetViewRef) {
       onResetViewRef(resetView);
     }
-  }, []);
+  }, [onResetViewRef, resetView]);
 
   // Use requestAnimationFrame for smoother zooming
   const wheelThrottleRef = useRef<number | null>(null);
@@ -349,7 +346,7 @@ export function MapCanvas({
         setDragStart({ x: event.clientX, y: event.clientY });
       }
     }
-  }, [isDragging, dragStart, draggedTile, tiles, viewportSize, cameraPosition, totalZoom, onTileUpdate]);
+  }, [isDragging, dragStart, draggedTile, tiles, viewportSize, cameraPosition, totalZoom]);
 
   const handleMouseUp = useCallback((event: React.MouseEvent<SVGSVGElement>) => {
     if (isDragging) {

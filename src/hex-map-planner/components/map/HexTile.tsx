@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Tile, PixelCoordinate } from '../../types/map';
+import { Tile } from '../../types/map';
 import { axialToPixel, hexToSVGPath, HEX_SIZE } from '../../lib/hexMath';
 import { Badge } from '../../ui/badge';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../../ui/tooltip';
@@ -15,7 +15,7 @@ interface HexTileProps {
   isDragging?: boolean;
   onSelect?: (tile: Tile) => void;
   onDragStart?: (tile: Tile, event: React.DragEvent) => void;
-  onDragEnd?: () => void;
+
   size?: number;
 }
 
@@ -26,7 +26,6 @@ export function HexTile({
   isDragging = false,
   onSelect,
   onDragStart,
-  onDragEnd,
   size = HEX_SIZE
 }: HexTileProps) {
   // Use the screen position passed from the canvas if available, otherwise calculate
@@ -110,7 +109,7 @@ export function HexTile({
       
       return selectionColor;
       
-    } catch (error) {
+    } catch {
       // Fallback to a bright blue if color parsing fails
       return '#3b82f6';
     }

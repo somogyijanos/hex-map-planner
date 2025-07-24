@@ -6,12 +6,12 @@ import { Button } from './button';
 import { Switch } from './switch';
 import { Label } from './label';
 import { Separator } from './separator';
-import { Input } from './input';
+
 import { 
   MousePointer, 
   Plus, 
   Trash2, 
-  Grid3X3, 
+ 
   Download, 
   Upload, 
   Save, 

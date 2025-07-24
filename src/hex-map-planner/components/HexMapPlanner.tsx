@@ -6,7 +6,7 @@ import { MapCanvas } from './map/MapCanvas';
 import { QuickActions } from '../ui/QuickActions';
 import { ContentPanel } from '../ui/ContentPanel';
 import { SettingsPanel } from '../ui/SettingsPanel';
-import { createNewMap, saveMapToStorage, createDefaultMapConfig } from '../lib/mapStorage';
+import { createNewMap, saveMapToStorage } from '../lib/mapStorage';
 
 // Props interface for the HexMapPlanner component
 export interface HexMapPlannerProps {

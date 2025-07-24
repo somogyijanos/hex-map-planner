@@ -20,7 +20,7 @@ import {
   Package, 
   Layers,
   X,
-  ChevronRight,
+
   Info
 } from 'lucide-react';
 import * as LucideIcons from 'lucide-react';
