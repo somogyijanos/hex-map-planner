@@ -31,6 +31,7 @@ export function MapCanvas({
   className = ''
 }: MapCanvasProps) {
   const svgRef = useRef<SVGSVGElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const [viewportSize, setViewportSize] = useState({ width: 0, height: 0 }); // Start with 0 to prevent initial misalignment
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState<PixelCoordinate | null>(null);
@@ -362,39 +363,9 @@ export function MapCanvas({
     event.preventDefault();
   }, []);
 
-  // Create custom cursor from icon SVG
-  const createIconCursor = (iconSvg: string, hotspotX = 12, hotspotY = 12) => {
-    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="filter: drop-shadow(0 0 2px white);">${iconSvg}</svg>`;
-    const encoded = encodeURIComponent(svg);
-    return `url("data:image/svg+xml,${encoded}") ${hotspotX} ${hotspotY}, auto`;
-  };
 
-  // Get cursor style based on current state and mode with exact toolbar icons
-  const getCursorStyle = () => {
-    if (isDragging) {
-      return draggedTile ? 'grabbing' : 'grabbing';
-    }
-    
-    switch (mapState.mode) {
-      case 'add': 
-        // Plus icon
-        return createIconCursor('<path d="M5 12h14"></path><path d="m12 5 0 14"></path>', 12, 12);
-      case 'select': 
-        // MousePointer icon
-        return createIconCursor('<path d="m3 3 7.07 16.97 2.51-7.39 7.39-2.51L3 3z"></path><path d="m13 13 6 6"></path>', 3, 3);
-      case 'drag': 
-        // Move icon
-        return createIconCursor('<polyline points="5,9 2,12 5,15"></polyline><polyline points="9,5 12,2 15,5"></polyline><polyline points="15,19 12,22 9,19"></polyline><polyline points="19,9 22,12 19,15"></polyline><line x1="2" y1="12" x2="22" y2="12"></line><line x1="12" y1="2" x2="12" y2="22"></line>', 12, 12);
-      case 'pan': 
-        // Hand icon
-        return createIconCursor('<path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"></path><path d="M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v2"></path><path d="M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v8"></path><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"></path>', 12, 12);
-      case 'remove': 
-        // Trash2 icon
-        return createIconCursor('<path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c0-1 1-2 2-2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line>', 12, 6);
-      default: 
-        return 'default';
-    }
-  };
+
+
 
   // Transform tiles to screen coordinates
   const transformedTiles = useMemo(() => {
@@ -423,8 +394,8 @@ export function MapCanvas({
   }, [transformedTiles, effectiveHexSize, zoomLevel, viewportSize]);
 
   return (
-    <div className={`relative w-full h-full overflow-hidden bg-background ${className}`}
-         style={{ cursor: getCursorStyle() }}>
+    <div ref={containerRef}
+         className={`relative w-full h-full overflow-hidden bg-background ${className}`}>
       <svg
         ref={svgRef}
         className="w-full h-full"
@@ -437,7 +408,6 @@ export function MapCanvas({
         onWheel={handleWheel}
         style={{ 
           backgroundColor: config.backgroundColor,
-          cursor: 'inherit', // Inherit from parent div
           willChange: 'transform',
           transform: 'translateZ(0)', // Force hardware acceleration
           backfaceVisibility: 'hidden', // Optimize for 3D transforms
@@ -496,6 +466,8 @@ export function MapCanvas({
           </>
         )}
       </svg>
+
+
     </div>
   );
 }

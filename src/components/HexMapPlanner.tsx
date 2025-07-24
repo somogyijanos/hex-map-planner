@@ -244,26 +244,21 @@ export function HexMapPlanner() {
         return;
       }
 
-      // Prevent default for our shortcuts
+      // Handle shortcuts without preventing default browser behavior
       switch (event.key.toLowerCase()) {
         case 'a':
-          event.preventDefault();
           handleModeChange('add');
           break;
         case 's':
-          event.preventDefault();
           handleModeChange('select');
           break;
         case 'm':
-          event.preventDefault();
           handleModeChange('drag');
           break;
         case 'p':
-          event.preventDefault();
           handleModeChange('pan');
           break;
         case 'x': // Changed from 'r' to 'x' to avoid conflict with reset view
-          event.preventDefault();
           handleModeChange('remove');
           break;
       }
@@ -328,44 +323,7 @@ export function HexMapPlanner() {
     setMapResetView(() => resetFn);
   }, []);
 
-  // Keyboard shortcuts for mode switching
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      // Only handle shortcuts when not typing in input fields
-      if (event.target instanceof HTMLInputElement || 
-          event.target instanceof HTMLTextAreaElement || 
-          event.target instanceof HTMLSelectElement) {
-        return;
-      }
 
-      // Prevent default for our shortcuts
-      switch (event.key.toLowerCase()) {
-        case 'a':
-          event.preventDefault();
-          handleModeChange('add');
-          break;
-        case 's':
-          event.preventDefault();
-          handleModeChange('select');
-          break;
-        case 'm':
-          event.preventDefault();
-          handleModeChange('drag');
-          break;
-        case 'p':
-          event.preventDefault();
-          handleModeChange('pan');
-          break;
-        case 'x': // Changed from 'r' to 'x' to avoid conflict with reset view
-          event.preventDefault();
-          handleModeChange('remove');
-          break;
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [handleModeChange]);
 
   // Auto-save every 30 seconds
   useEffect(() => {

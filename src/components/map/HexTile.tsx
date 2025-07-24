@@ -138,7 +138,6 @@ export function HexTile({
               isDragging && "opacity-50"
             )}
             onClick={handleClick}
-            style={{ cursor: 'inherit' }} // Inherit cursor from canvas
             onMouseDown={handleMouseDown}
           >
             {/* Shadow for height effect */}
