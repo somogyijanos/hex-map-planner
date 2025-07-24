@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import { AxialCoordinate, PixelCoordinate } from '@/types/map';
-import { axialToPixel, hexToSVGPath, hexRange, pixelToAxial } from '@/lib/hexMath';
+import { AxialCoordinate, PixelCoordinate } from '../../types/map';
+import { axialToPixel, hexToSVGPath, hexRange, pixelToAxial } from '../../lib/hexMath';
 
 interface HexGridProps {
   centerPosition: PixelCoordinate;
