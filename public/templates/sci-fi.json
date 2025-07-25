@@ -1,0 +1,125 @@
+{
+  "name": "Sci-Fi Colony",
+  "description": "Futuristic space colony and alien worlds",
+  "tileTypes": [
+    {
+      "id": "metal",
+      "name": "Metal Plating",
+      "color": "hsl(210, 20%, 60%)",
+      "icon": "Square",
+      "height": 1,
+      "description": "Reinforced metal surface"
+    },
+    {
+      "id": "crystal",
+      "name": "Crystal Field",
+      "color": "hsl(280, 70%, 70%)",
+      "icon": "Gem",
+      "height": 3,
+      "description": "Alien crystal formations"
+    },
+    {
+      "id": "energy",
+      "name": "Energy Core",
+      "color": "hsl(60, 100%, 70%)",
+      "icon": "Zap",
+      "height": 2,
+      "description": "Power generation area"
+    },
+    {
+      "id": "void",
+      "name": "Space",
+      "color": "hsl(240, 30%, 10%)",
+      "icon": "Circle",
+      "height": 0,
+      "description": "Empty space"
+    },
+    {
+      "id": "toxic",
+      "name": "Toxic Waste",
+      "color": "hsl(100, 80%, 40%)",
+      "icon": "Flame",
+      "height": 1,
+      "description": "Hazardous area"
+    },
+    {
+      "id": "habitat",
+      "name": "Habitat Zone",
+      "color": "hsl(200, 60%, 80%)",
+      "icon": "Home",
+      "height": 1,
+      "description": "Living quarters"
+    }
+  ],
+  "addOns": [
+    {
+      "id": "spaceport",
+      "name": "Spaceport",
+      "icon": "Rocket",
+      "type": "structure",
+      "description": "Ship landing facility"
+    },
+    {
+      "id": "dome",
+      "name": "Habitat Dome",
+      "icon": "Globe",
+      "type": "building",
+      "description": "Protected living space"
+    },
+    {
+      "id": "reactor",
+      "name": "Fusion Reactor",
+      "icon": "Zap",
+      "type": "building",
+      "description": "Power generation"
+    },
+    {
+      "id": "lab",
+      "name": "Research Lab",
+      "icon": "Flask",
+      "type": "building",
+      "description": "Scientific facility"
+    },
+    {
+      "id": "antenna",
+      "name": "Communication Array",
+      "icon": "Radio",
+      "type": "structure",
+      "description": "Long-range communications"
+    },
+    {
+      "id": "mining",
+      "name": "Mining Drill",
+      "icon": "Pickaxe",
+      "type": "structure",
+      "description": "Resource extraction"
+    },
+    {
+      "id": "shield",
+      "name": "Shield Generator",
+      "icon": "Shield",
+      "type": "structure",
+      "description": "Defensive barrier"
+    },
+    {
+      "id": "teleporter",
+      "name": "Teleporter",
+      "icon": "Zap",
+      "type": "structure",
+      "description": "Instant transport"
+    }
+  ],
+  "examples": [
+    {
+      "name": "Colony Outpost",
+      "description": "Small research outpost",
+      "tiles": [
+        {"type": "habitat", "position": {"q": 0, "r": 0}, "addOns": ["dome"]},
+        {"type": "metal", "position": {"q": 1, "r": 0}, "addOns": ["spaceport"]},
+        {"type": "energy", "position": {"q": 0, "r": 1}, "addOns": ["reactor"]},
+        {"type": "crystal", "position": {"q": -1, "r": 1}, "addOns": ["mining"]},
+        {"type": "void", "position": {"q": 1, "r": -1}, "addOns": []}
+      ]
+    }
+  ]
+} 

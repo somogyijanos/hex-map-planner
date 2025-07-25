@@ -1,0 +1,133 @@
+{
+  "name": "Natural Wilderness",
+  "description": "Pure nature environments and ecosystems",
+  "tileTypes": [
+    {
+      "id": "forest",
+      "name": "Dense Forest",
+      "color": "hsl(120, 50%, 35%)",
+      "icon": "Trees",
+      "height": 3,
+      "description": "Thick woodland"
+    },
+    {
+      "id": "meadow",
+      "name": "Meadow",
+      "color": "hsl(120, 60%, 70%)",
+      "icon": "Flower",
+      "height": 1,
+      "description": "Flowering grassland"
+    },
+    {
+      "id": "lake",
+      "name": "Lake",
+      "color": "hsl(210, 80%, 60%)",
+      "icon": "Waves",
+      "height": 0,
+      "description": "Fresh water lake"
+    },
+    {
+      "id": "mountain",
+      "name": "Mountain Peak",
+      "color": "hsl(30, 30%, 50%)",
+      "icon": "Mountain",
+      "height": 6,
+      "description": "High mountain"
+    },
+    {
+      "id": "beach",
+      "name": "Sandy Beach",
+      "color": "hsl(45, 70%, 80%)",
+      "icon": "Sun",
+      "height": 0,
+      "description": "Coastal sand"
+    },
+    {
+      "id": "jungle",
+      "name": "Jungle",
+      "color": "hsl(120, 60%, 25%)",
+      "icon": "TreePine",
+      "height": 2,
+      "description": "Tropical rainforest"
+    },
+    {
+      "id": "tundra",
+      "name": "Tundra",
+      "color": "hsl(200, 40%, 85%)",
+      "icon": "Snowflake",
+      "height": 1,
+      "description": "Frozen wasteland"
+    }
+  ],
+  "addOns": [
+    {
+      "id": "waterfall",
+      "name": "Waterfall",
+      "icon": "Waves",
+      "type": "nature",
+      "description": "Cascading water"
+    },
+    {
+      "id": "cave",
+      "name": "Cave Entrance",
+      "icon": "Circle",
+      "type": "nature",
+      "description": "Natural cave"
+    },
+    {
+      "id": "geyser",
+      "name": "Hot Spring",
+      "icon": "Flame",
+      "type": "nature",
+      "description": "Geothermal feature"
+    },
+    {
+      "id": "grove",
+      "name": "Sacred Grove",
+      "icon": "Trees",
+      "type": "nature",
+      "description": "Ancient tree circle"
+    },
+    {
+      "id": "boulder",
+      "name": "Boulder",
+      "icon": "Mountain",
+      "type": "nature",
+      "description": "Large rock formation"
+    },
+    {
+      "id": "clearing",
+      "name": "Forest Clearing",
+      "icon": "Sun",
+      "type": "nature",
+      "description": "Open space in forest"
+    },
+    {
+      "id": "stream",
+      "name": "Stream",
+      "icon": "Waves",
+      "type": "nature",
+      "description": "Small river"
+    },
+    {
+      "id": "flowers",
+      "name": "Wildflowers",
+      "icon": "Flower",
+      "type": "decoration",
+      "description": "Beautiful blooms"
+    }
+  ],
+  "examples": [
+    {
+      "name": "Forest Lake",
+      "description": "Peaceful lake surrounded by forest",
+      "tiles": [
+        {"type": "lake", "position": {"q": 0, "r": 0}, "addOns": []},
+        {"type": "forest", "position": {"q": 1, "r": 0}, "addOns": ["grove"]},
+        {"type": "forest", "position": {"q": 0, "r": 1}, "addOns": []},
+        {"type": "meadow", "position": {"q": -1, "r": 1}, "addOns": ["flowers"]},
+        {"type": "mountain", "position": {"q": 1, "r": -1}, "addOns": ["waterfall"]}
+      ]
+    }
+  ]
+} 

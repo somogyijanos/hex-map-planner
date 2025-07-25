@@ -1,0 +1,125 @@
+{
+  "name": "Fantasy RPG",
+  "description": "Classic fantasy setting with medieval themes",
+  "tileTypes": [
+    {
+      "id": "grass",
+      "name": "Grassland",
+      "color": "hsl(120, 60%, 50%)",
+      "icon": "TreePine",
+      "height": 1,
+      "description": "Open grassland terrain"
+    },
+    {
+      "id": "forest",
+      "name": "Forest",
+      "color": "hsl(120, 40%, 30%)",
+      "icon": "Trees",
+      "height": 2,
+      "description": "Dense forest"
+    },
+    {
+      "id": "mountain",
+      "name": "Mountain",
+      "color": "hsl(30, 30%, 40%)",
+      "icon": "Mountain",
+      "height": 5,
+      "description": "Rocky mountain peaks"
+    },
+    {
+      "id": "water",
+      "name": "Water",
+      "color": "hsl(210, 100%, 50%)",
+      "icon": "Waves",
+      "height": 0,
+      "description": "Rivers and lakes"
+    },
+    {
+      "id": "swamp",
+      "name": "Swampland",
+      "color": "hsl(60, 30%, 35%)",
+      "icon": "CloudRain",
+      "height": 0,
+      "description": "Murky swampland"
+    },
+    {
+      "id": "desert",
+      "name": "Desert",
+      "color": "hsl(45, 80%, 70%)",
+      "icon": "Sun",
+      "height": 1,
+      "description": "Sandy desert"
+    }
+  ],
+  "addOns": [
+    {
+      "id": "castle",
+      "name": "Castle",
+      "icon": "Castle",
+      "type": "building",
+      "description": "Fortified castle"
+    },
+    {
+      "id": "village",
+      "name": "Village",
+      "icon": "Home",
+      "type": "building",
+      "description": "Small settlement"
+    },
+    {
+      "id": "tower",
+      "name": "Watchtower",
+      "icon": "Building",
+      "type": "structure",
+      "description": "Defensive tower"
+    },
+    {
+      "id": "shrine",
+      "name": "Shrine",
+      "icon": "Church",
+      "type": "structure",
+      "description": "Sacred shrine"
+    },
+    {
+      "id": "ruins",
+      "name": "Ancient Ruins",
+      "icon": "Landmark",
+      "type": "structure",
+      "description": "Mysterious ruins"
+    },
+    {
+      "id": "camp",
+      "name": "Camp",
+      "icon": "Tent",
+      "type": "building",
+      "description": "Temporary camp"
+    },
+    {
+      "id": "bridge",
+      "name": "Bridge",
+      "icon": "Bridge",
+      "type": "structure",
+      "description": "River crossing"
+    },
+    {
+      "id": "mine",
+      "name": "Mine",
+      "icon": "Pickaxe",
+      "type": "structure",
+      "description": "Mining operation"
+    }
+  ],
+  "examples": [
+    {
+      "name": "Starter Village",
+      "description": "A small village by the forest",
+      "tiles": [
+        {"type": "grass", "position": {"q": 0, "r": 0}, "addOns": ["village"]},
+        {"type": "grass", "position": {"q": 1, "r": 0}, "addOns": []},
+        {"type": "forest", "position": {"q": -1, "r": 1}, "addOns": []},
+        {"type": "forest", "position": {"q": 0, "r": 1}, "addOns": []},
+        {"type": "water", "position": {"q": 1, "r": -1}, "addOns": ["bridge"]}
+      ]
+    }
+  ]
+} 

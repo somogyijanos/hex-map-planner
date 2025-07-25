@@ -1,0 +1,125 @@
+{
+  "name": "Modern City",
+  "description": "Urban planning with modern infrastructure",
+  "tileTypes": [
+    {
+      "id": "residential",
+      "name": "Residential",
+      "color": "hsl(200, 60%, 80%)",
+      "icon": "Home",
+      "height": 1,
+      "description": "Residential district"
+    },
+    {
+      "id": "commercial",
+      "name": "Commercial",
+      "color": "hsl(280, 60%, 70%)",
+      "icon": "Building",
+      "height": 2,
+      "description": "Shopping and business district"
+    },
+    {
+      "id": "industrial",
+      "name": "Industrial",
+      "color": "hsl(30, 50%, 60%)",
+      "icon": "Warehouse",
+      "height": 1,
+      "description": "Industrial zone"
+    },
+    {
+      "id": "park",
+      "name": "Park",
+      "color": "hsl(120, 50%, 60%)",
+      "icon": "Trees",
+      "height": 1,
+      "description": "Public green space"
+    },
+    {
+      "id": "road",
+      "name": "Road",
+      "color": "hsl(0, 0%, 40%)",
+      "icon": "Route",
+      "height": 0,
+      "description": "Street or highway"
+    },
+    {
+      "id": "water",
+      "name": "Water",
+      "color": "hsl(210, 100%, 50%)",
+      "icon": "Waves",
+      "height": 0,
+      "description": "River or harbor"
+    }
+  ],
+  "addOns": [
+    {
+      "id": "skyscraper",
+      "name": "Skyscraper",
+      "icon": "Building",
+      "type": "building",
+      "description": "High-rise building"
+    },
+    {
+      "id": "mall",
+      "name": "Shopping Mall",
+      "icon": "Store",
+      "type": "building",
+      "description": "Large retail complex"
+    },
+    {
+      "id": "hospital",
+      "name": "Hospital",
+      "icon": "Cross",
+      "type": "building",
+      "description": "Medical facility"
+    },
+    {
+      "id": "school",
+      "name": "School",
+      "icon": "GraduationCap",
+      "type": "building",
+      "description": "Educational institution"
+    },
+    {
+      "id": "stadium",
+      "name": "Stadium",
+      "icon": "Building",
+      "type": "structure",
+      "description": "Sports venue"
+    },
+    {
+      "id": "factory",
+      "name": "Factory",
+      "icon": "Warehouse",
+      "type": "building",
+      "description": "Manufacturing plant"
+    },
+    {
+      "id": "subway",
+      "name": "Subway Station",
+      "icon": "Train",
+      "type": "structure",
+      "description": "Public transit"
+    },
+    {
+      "id": "parking",
+      "name": "Parking Lot",
+      "icon": "Car",
+      "type": "structure",
+      "description": "Vehicle parking"
+    }
+  ],
+  "examples": [
+    {
+      "name": "City Center",
+      "description": "Downtown business district",
+      "tiles": [
+        {"type": "commercial", "position": {"q": 0, "r": 0}, "addOns": ["skyscraper"]},
+        {"type": "commercial", "position": {"q": 1, "r": 0}, "addOns": ["mall"]},
+        {"type": "road", "position": {"q": 0, "r": 1}, "addOns": []},
+        {"type": "park", "position": {"q": -1, "r": 1}, "addOns": []},
+        {"type": "residential", "position": {"q": 1, "r": -1}, "addOns": []}
+      ]
+    }
+  ]
+} 

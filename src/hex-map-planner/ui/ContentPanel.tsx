@@ -249,14 +249,14 @@ export function ContentPanel({
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="tiles" className="flex items-center gap-2 text-xs">
                 <Layers className="h-4 w-4" />
-                <span className="hidden sm:inline">Tiles</span>
+                <span>Tiles</span>
                 <Badge variant="secondary" className="text-xs">
                   {tileTypes.length}
                 </Badge>
               </TabsTrigger>
               <TabsTrigger value="addons" className="flex items-center gap-2 text-xs">
                 <Package className="h-4 w-4" />
-                <span className="hidden sm:inline">Add-ons</span>
+                <span>Add-ons</span>
                 <Badge variant="secondary" className="text-xs">
                   {addOns.length}
                 </Badge>

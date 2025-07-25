@@ -7,6 +7,8 @@ import { MapToolbar } from '../ui/MapToolbar';
 import { ContentPanel } from '../ui/ContentPanel';
 import { SettingsPanel } from '../ui/SettingsPanel';
 import { createNewMap } from '../lib/mapStorage';
+import { createMapFromTemplate } from '../lib/templates';
+import { TemplateId } from '../types/template';
 
 // Props interface for the HexMapPlanner component
 export interface HexMapPlannerProps {
@@ -331,6 +333,40 @@ export function HexMapPlanner({
     toast('success', `Loaded map: ${map.name}`);
   }, [toast]);
 
+  const handleLoadTemplate = useCallback(async (templateId: TemplateId, exampleName?: string) => {
+    try {
+      const templateMap = await createMapFromTemplate(templateId, exampleName, currentMap.name);
+      
+      if (exampleName) {
+        // Replace everything when loading an example
+        setCurrentMap(templateMap);
+        setConfig(templateMap.config);
+      } else {
+        // Only replace tile types and addons when loading empty template
+        setCurrentMap(prev => ({
+          ...prev,
+          tileTypes: templateMap.tileTypes,
+          addOns: templateMap.addOns,
+          updatedAt: new Date().toISOString()
+        }));
+      }
+      
+      setMapState(prev => ({
+        ...prev,
+        selectedTileType: templateMap.tileTypes[0] || null,
+        selectedAddOn: templateMap.addOns[0] || null,
+        selectedTile: null
+      }));
+      
+      const message = exampleName 
+        ? `Loaded example "${exampleName}" successfully`
+        : 'Template loaded successfully';
+      toast('success', message);
+    } catch (error) {
+      toast('error', 'Failed to load template: ' + (error as Error).message);
+    }
+  }, [currentMap.name, toast]);
+
   const handleClearMap = useCallback(() => {
     setCurrentMap(prev => ({
       ...prev,
@@ -359,7 +395,7 @@ export function HexMapPlanner({
   return (
     <div className={`flex h-screen bg-background ${className}`}>
       {/* Optimized Left Sidebar */}
-      <div className="w-96 border-r bg-card/50 flex flex-col">
+      <div className="w-96 min-w-96 border-r bg-card/50 flex flex-col">
         {/* Header */}
         <div className="p-4 border-b bg-card">
           <h1 className="text-xl font-bold text-foreground">Hex Map Planner</h1>
@@ -412,6 +448,7 @@ export function HexMapPlanner({
           currentMap={currentMap}
           onModeChange={handleModeChange}
           onLoadMap={handleLoadMap}
+          onLoadTemplate={handleLoadTemplate}
           onClearMap={handleClearMap}
           onResetView={handleResetView}
         />

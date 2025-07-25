@@ -13,17 +13,24 @@ import {
   Hand,
   Move,
   Download,
-  Upload
+  Upload,
+  Palette,
+  FileText,
+  ChevronDown
 } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './tooltip';
+import { Popover, PopoverContent, PopoverTrigger } from './popover';
 import { exportMapAsJSON, importMapFromJSON } from '../lib/mapStorage';
+import { getAvailableTemplates, loadTemplate } from '../lib/templates';
+import { TemplateId } from '../types/template';
 
 interface MapToolbarProps {
   mapState: MapState;
   currentMap: HexMap;
   onModeChange: (mode: 'add' | 'select' | 'drag' | 'pan' | 'remove') => void;
   onLoadMap: (map: HexMap) => void;
+  onLoadTemplate: (templateId: TemplateId, exampleName?: string) => void;
   onClearMap: () => void;
   onResetView: () => void;
   className?: string;
@@ -72,11 +79,35 @@ export function MapToolbar({
   currentMap,
   onModeChange,
   onLoadMap,
+  onLoadTemplate,
   onClearMap,
   onResetView,
   className = ''
 }: MapToolbarProps) {
   const fileInputRef = React.useRef<HTMLInputElement>(null);
+  const [availableTemplates, setAvailableTemplates] = React.useState<Array<{id: TemplateId, name: string, examples: Array<{name: string, description: string}>}>>([]);
+  const [fileMenuOpen, setFileMenuOpen] = React.useState(false);
+  
+  // Load available templates on mount
+  React.useEffect(() => {
+    const loadTemplateInfo = async () => {
+      const templateIds = getAvailableTemplates();
+      const templateInfo = await Promise.all(
+        templateIds.map(async (id) => {
+          try {
+            const template = await loadTemplate(id);
+            return { id, name: template.name, examples: template.examples };
+          } catch (error) {
+            console.error(`Failed to load template ${id}:`, error);
+            return null;
+          }
+        })
+      );
+      setAvailableTemplates(templateInfo.filter(t => t !== null) as Array<{id: TemplateId, name: string, examples: Array<{name: string, description: string}>}>);
+    };
+    
+    loadTemplateInfo();
+  }, []);
 
   const handleClear = () => {
     if (confirm('Clear all tiles? This action cannot be undone.')) {
@@ -109,6 +140,19 @@ export function MapToolbar({
       // Reset file input
       if (fileInputRef.current) {
         fileInputRef.current.value = '';
+      }
+    }
+  };
+
+  const handleTemplateChange = (value: string) => {
+    if (value && value !== '') {
+      const [templateId, exampleName] = value.split('|');
+      const confirmMessage = exampleName 
+        ? `Load "${exampleName}" example? This will replace your current tile types, addons, and tiles.`
+        : 'Load template? This will replace your current tile types and addons.';
+      
+      if (confirm(confirmMessage)) {
+        onLoadTemplate(templateId as TemplateId, exampleName || undefined);
       }
     }
   };
@@ -160,32 +204,80 @@ export function MapToolbar({
           <div className="flex items-center gap-2">
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={handleExportJSON}
-                  className="h-8"
-                >
-                  <Download className="h-4 w-4" />
-                  <span className="ml-1.5 hidden md:inline">Export</span>
-                </Button>
+                <Popover open={fileMenuOpen} onOpenChange={setFileMenuOpen}>
+                  <PopoverTrigger asChild>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="h-8"
+                    >
+                      <FileText className="h-4 w-4" />
+                      <span className="ml-1.5 hidden md:inline">File</span>
+                      <ChevronDown className="h-3 w-3 ml-1" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-64 p-2" align="start">
+                    <div className="space-y-1">
+                      <div className="px-2 py-1.5 text-sm font-medium text-muted-foreground">File Actions</div>
+                      
+                      <button
+                        onClick={() => {
+                          handleExportJSON();
+                          setFileMenuOpen(false);
+                        }}
+                        className="flex items-center w-full px-2 py-2 text-sm rounded-md hover:bg-accent hover:text-accent-foreground"
+                      >
+                        <Download className="h-4 w-4 mr-2" />
+                        Export Map
+                      </button>
+                      
+                      <button
+                        onClick={() => {
+                          handleImportJSON();
+                          setFileMenuOpen(false);
+                        }}
+                        className="flex items-center w-full px-2 py-2 text-sm rounded-md hover:bg-accent hover:text-accent-foreground"
+                      >
+                        <Upload className="h-4 w-4 mr-2" />
+                        Import Map
+                      </button>
+                      
+                      <div className="h-px bg-border my-1" />
+                      
+                      <div className="px-2 py-1.5 text-sm font-medium text-muted-foreground">Templates</div>
+                      
+                      {availableTemplates.map((template) => (
+                        <div key={template.id}>
+                          <button
+                            onClick={() => {
+                              handleTemplateChange(template.id);
+                              setFileMenuOpen(false);
+                            }}
+                            className="flex items-center w-full px-2 py-2 text-sm rounded-md hover:bg-accent hover:text-accent-foreground"
+                          >
+                            <Palette className="h-4 w-4 mr-2" />
+                            {template.name} (Empty)
+                          </button>
+                          {template.examples.map((example) => (
+                            <button
+                              key={`${template.id}|${example.name}`}
+                              onClick={() => {
+                                handleTemplateChange(`${template.id}|${example.name}`);
+                                setFileMenuOpen(false);
+                              }}
+                              className="flex items-center w-full px-4 py-2 text-sm rounded-md hover:bg-accent hover:text-accent-foreground text-muted-foreground"
+                            >
+                              <span className="mr-2">└</span>
+                              {example.name}
+                            </button>
+                          ))}
+                        </div>
+                      ))}
+                    </div>
+                  </PopoverContent>
+                </Popover>
               </TooltipTrigger>
-              <TooltipContent>Download map as JSON file</TooltipContent>
-            </Tooltip>
-
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={handleImportJSON}
-                  className="h-8"
-                >
-                  <Upload className="h-4 w-4" />
-                  <span className="ml-1.5 hidden md:inline">Import</span>
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>Load map from JSON file</TooltipContent>
+              <TooltipContent>File operations and templates</TooltipContent>
             </Tooltip>
 
             <div className="w-px h-6 bg-border" />
