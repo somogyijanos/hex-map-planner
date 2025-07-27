@@ -8,7 +8,7 @@ import { ContentPanel } from '../ui/ContentPanel';
 import { SettingsPanel } from '../ui/SettingsPanel';
 import { createNewMap } from '../lib/mapStorage';
 import { createMapFromTemplate } from '../lib/templates';
-import { TemplateId } from '../types/template';
+// TemplateId type removed - using string directly for dynamic templates
 
 // Props interface for the HexMapPlanner component
 export interface HexMapPlannerProps {
@@ -333,7 +333,7 @@ export function HexMapPlanner({
     toast('success', `Loaded map: ${map.name}`);
   }, [toast]);
 
-  const handleLoadTemplate = useCallback(async (templateId: TemplateId, exampleName?: string) => {
+  const handleLoadTemplate = useCallback(async (templateId: string, exampleName?: string) => {
     try {
       const templateMap = await createMapFromTemplate(templateId, exampleName, currentMap.name);
       

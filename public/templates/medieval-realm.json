@@ -1,0 +1,600 @@
+{
+  "name": "Medieval Realm - Ultra Detailed",
+  "description": "A comprehensive medieval fantasy realm with over 100 tiles featuring multiple kingdoms, trade routes, natural barriers, and strategic locations. Designed as a 2D plan for 3D world construction using Kaykit Medieval Hexagon assets.",
+  "tileTypes": [
+    {
+      "id": "hex_grass",
+      "name": "Grassland",
+      "color": "hsl(120, 55%, 45%)",
+      "icon": "TreePine",
+      "height": 1,
+      "description": "Base grass hexagon tile"
+    },
+    {
+      "id": "hex_grass_sloped_high",
+      "name": "High Slopes",
+      "color": "hsl(120, 45%, 40%)",
+      "icon": "TrendingUp",
+      "height": 3,
+      "description": "Elevated grassland with high slopes"
+    },
+    {
+      "id": "hex_grass_sloped_low",
+      "name": "Low Slopes",
+      "color": "hsl(120, 50%, 42%)",
+      "icon": "TrendingUp",
+      "height": 2,
+      "description": "Gently sloped grassland"
+    },
+    {
+      "id": "hex_water",
+      "name": "Open Water",
+      "color": "hsl(210, 85%, 45%)",
+      "icon": "Waves",
+      "height": 0,
+      "description": "Deep water areas and lakes"
+    },
+    {
+      "id": "hex_coast_A",
+      "name": "Small Bay",
+      "color": "hsl(200, 70%, 55%)",
+      "icon": "Anchor",
+      "height": 0,
+      "description": "Small coastal inlet"
+    },
+    {
+      "id": "hex_coast_B",
+      "name": "Curved Coast",
+      "color": "hsl(200, 70%, 52%)",
+      "icon": "Anchor",
+      "height": 0,
+      "description": "Curved coastline"
+    },
+    {
+      "id": "hex_coast_C",
+      "name": "Wide Bay",
+      "color": "hsl(200, 70%, 58%)",
+      "icon": "Anchor",
+      "height": 0,
+      "description": "Wide coastal bay"
+    },
+    {
+      "id": "hex_coast_D",
+      "name": "Peninsula",
+      "color": "hsl(200, 70%, 50%)",
+      "icon": "Anchor",
+      "height": 0,
+      "description": "Peninsula formation"
+    },
+    {
+      "id": "hex_coast_E",
+      "name": "Harbor",
+      "color": "hsl(200, 70%, 60%)",
+      "icon": "Anchor",
+      "height": 0,
+      "description": "Natural harbor"
+    },
+    {
+      "id": "hex_river_A",
+      "name": "River Straight",
+      "color": "hsl(210, 80%, 65%)",
+      "icon": "Waves",
+      "height": 0,
+      "description": "Straight river segment"
+    },
+    {
+      "id": "hex_river_B",
+      "name": "River Turn",
+      "color": "hsl(210, 80%, 63%)",
+      "icon": "Waves",
+      "height": 0,
+      "description": "River turning point"
+    },
+    {
+      "id": "hex_river_C",
+      "name": "River Bend",
+      "color": "hsl(210, 80%, 67%)",
+      "icon": "Waves",
+      "height": 0,
+      "description": "River bend"
+    },
+    {
+      "id": "hex_river_crossing_A",
+      "name": "Road Bridge",
+      "color": "hsl(210, 75%, 65%)",
+      "icon": "Bridge",
+      "height": 0,
+      "description": "River with road crossing"
+    },
+    {
+      "id": "hex_river_crossing_B",
+      "name": "Trade Bridge",
+      "color": "hsl(210, 75%, 63%)",
+      "icon": "Bridge",
+      "height": 0,
+      "description": "River with major trade route crossing"
+    },
+    {
+      "id": "hex_road_A",
+      "name": "Main Road",
+      "color": "hsl(40, 40%, 55%)",
+      "icon": "Route",
+      "height": 1,
+      "description": "Major road segment"
+    },
+    {
+      "id": "hex_road_B",
+      "name": "Road Junction",
+      "color": "hsl(40, 40%, 52%)",
+      "icon": "GitBranch",
+      "height": 1,
+      "description": "Road intersection"
+    },
+    {
+      "id": "hex_road_C",
+      "name": "Trade Route",
+      "color": "hsl(40, 45%, 58%)",
+      "icon": "Route",
+      "height": 1,
+      "description": "Important trade route"
+    },
+    {
+      "id": "hex_road_D",
+      "name": "Mountain Pass",
+      "color": "hsl(35, 35%, 50%)",
+      "icon": "Route",
+      "height": 2,
+      "description": "Road through mountain pass"
+    }
+  ],
+  "addOns": [
+    {
+      "id": "building_castle_blue",
+      "name": "Azure Keep",
+      "icon": "Castle",
+      "type": "building",
+      "description": "Blue faction royal castle"
+    },
+    {
+      "id": "building_castle_red",
+      "name": "Crimson Fortress",
+      "icon": "Castle",
+      "type": "building",
+      "description": "Red faction stronghold"
+    },
+    {
+      "id": "building_castle_green",
+      "name": "Emerald Citadel",
+      "icon": "Castle",
+      "type": "building",
+      "description": "Green faction castle"
+    },
+    {
+      "id": "building_castle_yellow",
+      "name": "Golden Palace",
+      "icon": "Castle",
+      "type": "building",
+      "description": "Yellow faction royal seat"
+    },
+    {
+      "id": "building_market_blue",
+      "name": "Azure Market",
+      "icon": "Store",
+      "type": "building",
+      "description": "Blue faction trading post"
+    },
+    {
+      "id": "building_market_red",
+      "name": "Crimson Bazaar",
+      "icon": "Store",
+      "type": "building",
+      "description": "Red faction marketplace"
+    },
+    {
+      "id": "building_market_green",
+      "name": "Emerald Exchange",
+      "icon": "Store",
+      "type": "building",
+      "description": "Green faction trade center"
+    },
+    {
+      "id": "building_market_yellow",
+      "name": "Golden Emporium",
+      "icon": "Store",
+      "type": "building",
+      "description": "Yellow faction grand market"
+    },
+    {
+      "id": "building_church",
+      "name": "Sacred Temple",
+      "icon": "Church",
+      "type": "building",
+      "description": "Religious center"
+    },
+    {
+      "id": "building_tower_A",
+      "name": "Watchtower",
+      "icon": "Building2",
+      "type": "structure",
+      "description": "Defensive watchtower"
+    },
+    {
+      "id": "building_tower_catapult",
+      "name": "Siege Tower",
+      "icon": "Zap",
+      "type": "structure",
+      "description": "Tower with siege equipment"
+    },
+    {
+      "id": "building_blacksmith",
+      "name": "Smithy",
+      "icon": "Hammer",
+      "type": "building",
+      "description": "Weapon and tool forge"
+    },
+    {
+      "id": "building_barracks",
+      "name": "Barracks",
+      "icon": "Shield",
+      "type": "building",
+      "description": "Military housing"
+    },
+    {
+      "id": "building_archeryrange",
+      "name": "Archery Range",
+      "icon": "Target",
+      "type": "structure",
+      "description": "Training grounds for archers"
+    },
+    {
+      "id": "building_mine",
+      "name": "Mine",
+      "icon": "Pickaxe",
+      "type": "structure",
+      "description": "Resource extraction site"
+    },
+    {
+      "id": "building_lumbermill",
+      "name": "Lumber Mill",
+      "icon": "TreePine",
+      "type": "building",
+      "description": "Wood processing facility"
+    },
+    {
+      "id": "building_watermill",
+      "name": "Water Mill",
+      "icon": "Settings",
+      "type": "building",
+      "description": "Water-powered mill"
+    },
+    {
+      "id": "building_windmill",
+      "name": "Windmill",
+      "icon": "Fan",
+      "type": "building",
+      "description": "Wind-powered mill"
+    },
+    {
+      "id": "building_tavern",
+      "name": "Tavern",
+      "icon": "Coffee",
+      "type": "building",
+      "description": "Inn and tavern"
+    },
+    {
+      "id": "building_home_A",
+      "name": "Manor House",
+      "icon": "Home",
+      "type": "building",
+      "description": "Large residential building"
+    },
+    {
+      "id": "building_home_B",
+      "name": "Cottage",
+      "icon": "Home",
+      "type": "building",
+      "description": "Small residential building"
+    },
+    {
+      "id": "building_well",
+      "name": "Well",
+      "icon": "Circle",
+      "type": "structure",
+      "description": "Water well"
+    },
+    {
+      "id": "building_bridge_A",
+      "name": "Stone Bridge",
+      "icon": "Bridge",
+      "type": "structure",
+      "description": "Sturdy stone bridge"
+    },
+    {
+      "id": "building_bridge_B",
+      "name": "Wooden Bridge",
+      "icon": "Bridge",
+      "type": "structure",
+      "description": "Simple wooden bridge"
+    },
+    {
+      "id": "wall_straight",
+      "name": "Wall Section",
+      "icon": "Square",
+      "type": "structure",
+      "description": "Defensive wall"
+    },
+    {
+      "id": "wall_corner_A_outside",
+      "name": "Wall Corner",
+      "icon": "CornerUpRight",
+      "type": "structure",
+      "description": "Wall corner piece"
+    },
+    {
+      "id": "wall_straight_gate",
+      "name": "Gate",
+      "icon": "DoorOpen",
+      "type": "structure",
+      "description": "Fortified gate"
+    },
+    {
+      "id": "fence_stone_straight",
+      "name": "Stone Fence",
+      "icon": "Minus",
+      "type": "structure",
+      "description": "Stone boundary fence"
+    },
+    {
+      "id": "fence_wood_straight",
+      "name": "Wood Fence",
+      "icon": "Minus",
+      "type": "structure",
+      "description": "Wooden boundary fence"
+    },
+    {
+      "id": "trees_A_large",
+      "name": "Dense Forest",
+      "icon": "Trees",
+      "type": "nature",
+      "description": "Large forest area"
+    },
+    {
+      "id": "trees_A_medium",
+      "name": "Forest Grove",
+      "icon": "TreePine",
+      "type": "nature",
+      "description": "Medium forest cluster"
+    },
+    {
+      "id": "trees_A_small",
+      "name": "Tree Cluster",
+      "icon": "TreePine",
+      "type": "nature",
+      "description": "Small group of trees"
+    },
+    {
+      "id": "tree_single_A",
+      "name": "Ancient Oak",
+      "icon": "TreePine",
+      "type": "nature",
+      "description": "Single large tree"
+    },
+    {
+      "id": "mountain_A",
+      "name": "Mountain Peak",
+      "icon": "Mountain",
+      "type": "nature",
+      "description": "Rocky mountain"
+    },
+    {
+      "id": "mountain_A_grass",
+      "name": "Grassy Mountain",
+      "icon": "Mountain",
+      "type": "nature",
+      "description": "Mountain with grass slopes"
+    },
+    {
+      "id": "hills_A",
+      "name": "Rolling Hills",
+      "icon": "Mountain",
+      "type": "nature",
+      "description": "Gentle hills"
+    },
+    {
+      "id": "rock_single_A",
+      "name": "Boulder",
+      "icon": "Mountain",
+      "type": "nature",
+      "description": "Large rock formation"
+    },
+    {
+      "id": "tent",
+      "name": "Camp",
+      "icon": "Tent",
+      "type": "structure",
+      "description": "Temporary encampment"
+    },
+    {
+      "id": "flag_blue",
+      "name": "Azure Banner",
+      "icon": "Flag",
+      "type": "decoration",
+      "description": "Blue faction flag"
+    },
+    {
+      "id": "flag_red",
+      "name": "Crimson Banner",
+      "icon": "Flag",
+      "type": "decoration",
+      "description": "Red faction flag"
+    },
+    {
+      "id": "flag_green",
+      "name": "Emerald Banner",
+      "icon": "Flag",
+      "type": "decoration",
+      "description": "Green faction flag"
+    },
+    {
+      "id": "flag_yellow",
+      "name": "Golden Banner",
+      "icon": "Flag",
+      "type": "decoration",
+      "description": "Yellow faction flag"
+    }
+  ],
+  "examples": [
+    {
+      "name": "The Great Realm",
+      "description": "A vast medieval kingdom with four major factions, extensive trade networks, natural barriers, and strategic locations. This comprehensive world features over 100 tiles representing a complete realm ready for 3D construction using Kaykit Medieval Hexagon assets.",
+      "tiles": [
+        {"type": "hex_grass", "position": {"q": 0, "r": 0}, "addOns": ["building_castle_blue", "flag_blue"]},
+        {"type": "hex_grass", "position": {"q": 1, "r": 0}, "addOns": ["building_market_blue", "building_well"]},
+        {"type": "hex_grass", "position": {"q": -1, "r": 0}, "addOns": ["building_barracks", "building_tower_A"]},
+        {"type": "hex_grass", "position": {"q": 0, "r": 1}, "addOns": ["building_blacksmith", "building_home_A"]},
+        {"type": "hex_grass", "position": {"q": 0, "r": -1}, "addOns": ["building_church"]},
+        {"type": "hex_grass", "position": {"q": 1, "r": -1}, "addOns": ["building_tavern", "building_home_B"]},
+        {"type": "hex_grass", "position": {"q": -1, "r": 1}, "addOns": ["building_archeryrange"]},
+        {"type": "hex_grass", "position": {"q": 2, "r": 0}, "addOns": ["wall_straight", "building_tower_A"]},
+        {"type": "hex_grass", "position": {"q": -2, "r": 0}, "addOns": ["wall_straight", "building_tower_A"]},
+        {"type": "hex_grass", "position": {"q": 1, "r": 1}, "addOns": ["building_home_A", "fence_stone_straight"]},
+        {"type": "hex_grass", "position": {"q": -1, "r": -1}, "addOns": ["building_home_B", "fence_wood_straight"]},
+
+        {"type": "hex_grass_sloped_high", "position": {"q": 0, "r": -4}, "addOns": ["mountain_A"]},
+        {"type": "hex_grass_sloped_high", "position": {"q": 1, "r": -4}, "addOns": ["mountain_A_grass"]},
+        {"type": "hex_grass_sloped_high", "position": {"q": -1, "r": -3}, "addOns": ["mountain_A"]},
+        {"type": "hex_grass_sloped_low", "position": {"q": 0, "r": -3}, "addOns": ["building_mine", "rock_single_A"]},
+        {"type": "hex_grass", "position": {"q": 1, "r": -3}, "addOns": ["building_castle_red", "flag_red"]},
+        {"type": "hex_grass", "position": {"q": 2, "r": -3}, "addOns": ["building_barracks", "building_tower_catapult"]},
+        {"type": "hex_grass", "position": {"q": 0, "r": -2}, "addOns": ["building_market_red", "building_blacksmith"]},
+        {"type": "hex_grass", "position": {"q": 1, "r": -2}, "addOns": ["building_home_A", "building_well"]},
+        {"type": "hex_grass", "position": {"q": 2, "r": -2}, "addOns": ["building_tavern", "building_home_B"]},
+        {"type": "hex_grass_sloped_low", "position": {"q": -1, "r": -2}, "addOns": ["building_mine", "tent"]},
+        {"type": "hex_grass", "position": {"q": 3, "r": -3}, "addOns": ["wall_corner_A_outside"]},
+        {"type": "hex_grass", "position": {"q": 3, "r": -2}, "addOns": ["wall_straight"]},
+
+        {"type": "hex_grass", "position": {"q": 5, "r": 0}, "addOns": ["building_castle_green", "flag_green"]},
+        {"type": "hex_grass", "position": {"q": 4, "r": 0}, "addOns": ["building_market_green", "building_lumbermill"]},
+        {"type": "hex_grass", "position": {"q": 6, "r": 0}, "addOns": ["building_barracks", "building_archeryrange"]},
+        {"type": "hex_grass", "position": {"q": 5, "r": 1}, "addOns": ["building_blacksmith", "building_home_A"]},
+        {"type": "hex_grass", "position": {"q": 4, "r": 1}, "addOns": ["trees_A_large"]},
+        {"type": "hex_grass", "position": {"q": 6, "r": 1}, "addOns": ["trees_A_medium", "building_home_B"]},
+        {"type": "hex_grass", "position": {"q": 3, "r": 0}, "addOns": ["trees_A_small", "building_tower_A"]},
+        {"type": "hex_grass", "position": {"q": 3, "r": 1}, "addOns": ["building_lumbermill", "trees_A_medium"]},
+        {"type": "hex_grass", "position": {"q": 5, "r": -1}, "addOns": ["building_tavern", "building_well"]},
+        {"type": "hex_grass", "position": {"q": 4, "r": -1}, "addOns": ["fence_wood_straight", "tree_single_A"]},
+        {"type": "hex_grass", "position": {"q": 6, "r": -1}, "addOns": ["building_tower_A", "trees_A_small"]},
+        {"type": "hex_grass", "position": {"q": 7, "r": 0}, "addOns": ["wall_straight", "trees_A_small"]},
+
+        {"type": "hex_grass", "position": {"q": 0, "r": 5}, "addOns": ["building_castle_yellow", "flag_yellow"]},
+        {"type": "hex_grass", "position": {"q": 1, "r": 5}, "addOns": ["building_market_yellow", "building_windmill"]},
+        {"type": "hex_grass", "position": {"q": -1, "r": 5}, "addOns": ["building_barracks", "building_tower_catapult"]},
+        {"type": "hex_grass", "position": {"q": 0, "r": 4}, "addOns": ["building_blacksmith", "building_archeryrange"]},
+        {"type": "hex_grass", "position": {"q": 1, "r": 4}, "addOns": ["building_home_A", "building_well"]},
+        {"type": "hex_grass", "position": {"q": -1, "r": 4}, "addOns": ["building_tavern", "building_home_B"]},
+        {"type": "hex_grass", "position": {"q": 2, "r": 5}, "addOns": ["building_church"]},
+        {"type": "hex_grass", "position": {"q": -2, "r": 5}, "addOns": ["building_tower_A", "wall_corner_A_outside"]},
+        {"type": "hex_grass", "position": {"q": 0, "r": 6}, "addOns": ["wall_straight_gate"]},
+        {"type": "hex_grass", "position": {"q": 1, "r": 6}, "addOns": ["wall_straight"]},
+        {"type": "hex_grass", "position": {"q": -1, "r": 6}, "addOns": ["wall_straight"]},
+
+        {"type": "hex_grass", "position": {"q": -5, "r": 0}, "addOns": ["trees_A_large"]},
+        {"type": "hex_grass", "position": {"q": -4, "r": 0}, "addOns": ["trees_A_medium", "building_tower_A"]},
+        {"type": "hex_grass", "position": {"q": -3, "r": 0}, "addOns": ["tree_single_A", "rock_single_A"]},
+        {"type": "hex_grass", "position": {"q": -5, "r": 1}, "addOns": ["trees_A_large"]},
+        {"type": "hex_grass", "position": {"q": -4, "r": 1}, "addOns": ["building_lumbermill", "tent"]},
+        {"type": "hex_grass", "position": {"q": -3, "r": 1}, "addOns": ["building_home_B", "fence_wood_straight"]},
+        {"type": "hex_grass_sloped_low", "position": {"q": -6, "r": 0}, "addOns": ["hills_A", "trees_A_small"]},
+        {"type": "hex_grass_sloped_low", "position": {"q": -6, "r": 1}, "addOns": ["mountain_A_grass"]},
+        {"type": "hex_grass", "position": {"q": -5, "r": -1}, "addOns": ["trees_A_medium", "rock_single_A"]},
+        {"type": "hex_grass", "position": {"q": -4, "r": -1}, "addOns": ["building_tavern", "tree_single_A"]},
+
+        {"type": "hex_river_A", "position": {"q": 2, "r": 2}, "addOns": []},
+        {"type": "hex_river_B", "position": {"q": 3, "r": 2}, "addOns": []},
+        {"type": "hex_river_A", "position": {"q": 4, "r": 2}, "addOns": []},
+        {"type": "hex_river_crossing_A", "position": {"q": 1, "r": 2}, "addOns": ["building_bridge_A"]},
+        {"type": "hex_river_C", "position": {"q": 0, "r": 2}, "addOns": []},
+        {"type": "hex_river_B", "position": {"q": -1, "r": 2}, "addOns": []},
+        {"type": "hex_river_A", "position": {"q": -2, "r": 2}, "addOns": []},
+        {"type": "hex_river_crossing_B", "position": {"q": -3, "r": 2}, "addOns": ["building_bridge_B"]},
+        {"type": "hex_river_A", "position": {"q": 2, "r": 1}, "addOns": ["building_watermill"]},
+        {"type": "hex_river_A", "position": {"q": 2, "r": 3}, "addOns": []},
+        {"type": "hex_river_B", "position": {"q": 1, "r": 3}, "addOns": []},
+        {"type": "hex_river_C", "position": {"q": 0, "r": 3}, "addOns": []},
+
+        {"type": "hex_coast_A", "position": {"q": 3, "r": 4}, "addOns": ["building_home_B"]},
+        {"type": "hex_coast_B", "position": {"q": 4, "r": 4}, "addOns": []},
+        {"type": "hex_coast_C", "position": {"q": 5, "r": 4}, "addOns": ["building_market_blue"]},
+        {"type": "hex_coast_E", "position": {"q": 6, "r": 4}, "addOns": ["building_tavern"]},
+        {"type": "hex_water", "position": {"q": 7, "r": 4}, "addOns": []},
+        {"type": "hex_water", "position": {"q": 8, "r": 4}, "addOns": []},
+        {"type": "hex_coast_D", "position": {"q": 5, "r": 5}, "addOns": ["building_tower_A"]},
+        {"type": "hex_water", "position": {"q": 6, "r": 5}, "addOns": []},
+        {"type": "hex_water", "position": {"q": 7, "r": 5}, "addOns": []},
+        {"type": "hex_coast_A", "position": {"q": 4, "r": 5}, "addOns": ["building_well"]},
+
+        {"type": "hex_road_A", "position": {"q": 2, "r": -1}, "addOns": []},
+        {"type": "hex_road_B", "position": {"q": 3, "r": -1}, "addOns": ["building_tower_A"]},
+        {"type": "hex_road_C", "position": {"q": 4, "r": -2}, "addOns": []},
+        {"type": "hex_road_A", "position": {"q": -2, "r": 1}, "addOns": []},
+        {"type": "hex_road_B", "position": {"q": -3, "r": 1}, "addOns": ["building_tower_A"]},
+        {"type": "hex_road_A", "position": {"q": 1, "r": 3}, "addOns": []},
+        {"type": "hex_road_C", "position": {"q": 2, "r": 4}, "addOns": ["building_well"]},
+        {"type": "hex_road_D", "position": {"q": 0, "r": -3}, "addOns": []},
+        {"type": "hex_road_A", "position": {"q": -1, "r": 3}, "addOns": []},
+        {"type": "hex_road_B", "position": {"q": -2, "r": 3}, "addOns": ["building_tavern"]},
+
+        {"type": "hex_grass_sloped_high", "position": {"q": -2, "r": -4}, "addOns": ["mountain_A"]},
+        {"type": "hex_grass_sloped_low", "position": {"q": -1, "r": -4}, "addOns": ["building_mine", "tent"]},
+        {"type": "hex_grass", "position": {"q": 2, "r": -4}, "addOns": ["building_mine", "building_tower_A"]},
+        {"type": "hex_grass_sloped_high", "position": {"q": 3, "r": -4}, "addOns": ["mountain_A_grass", "rock_single_A"]},
+        {"type": "hex_grass", "position": {"q": -3, "r": -3}, "addOns": ["tent", "flag_red"]},
+        {"type": "hex_grass", "position": {"q": -2, "r": -3}, "addOns": ["building_home_B", "fence_wood_straight"]},
+
+        {"type": "hex_grass", "position": {"q": 7, "r": 1}, "addOns": ["trees_A_large"]},
+        {"type": "hex_grass", "position": {"q": 8, "r": 1}, "addOns": ["trees_A_medium", "tree_single_A"]},
+        {"type": "hex_grass", "position": {"q": 8, "r": 0}, "addOns": ["building_lumbermill", "trees_A_small"]},
+        {"type": "hex_grass", "position": {"q": 8, "r": -1}, "addOns": ["trees_A_large"]},
+        {"type": "hex_grass", "position": {"q": 7, "r": -1}, "addOns": ["building_tower_A", "tree_single_A"]},
+        {"type": "hex_grass", "position": {"q": 9, "r": 0}, "addOns": ["trees_A_medium", "rock_single_A"]},
+
+        {"type": "hex_grass", "position": {"q": 2, "r": 6}, "addOns": ["building_windmill", "fence_stone_straight"]},
+        {"type": "hex_grass", "position": {"q": 3, "r": 6}, "addOns": ["building_home_A", "building_well"]},
+        {"type": "hex_grass", "position": {"q": -2, "r": 6}, "addOns": ["building_windmill", "fence_wood_straight"]},
+        {"type": "hex_grass", "position": {"q": -3, "r": 6}, "addOns": ["building_home_B", "tree_single_A"]},
+        {"type": "hex_grass", "position": {"q": 0, "r": 7}, "addOns": ["building_church"]},
+        {"type": "hex_grass", "position": {"q": 1, "r": 7}, "addOns": ["building_market_yellow", "flag_yellow"]},
+        {"type": "hex_grass", "position": {"q": -1, "r": 7}, "addOns": ["building_tavern", "building_home_A"]},
+
+        {"type": "hex_grass_sloped_low", "position": {"q": -7, "r": 0}, "addOns": ["hills_A", "trees_A_small"]},
+        {"type": "hex_grass", "position": {"q": -7, "r": 1}, "addOns": ["trees_A_large"]},
+        {"type": "hex_grass", "position": {"q": -6, "r": 2}, "addOns": ["trees_A_medium", "rock_single_A"]},
+        {"type": "hex_grass", "position": {"q": -5, "r": 2}, "addOns": ["building_home_B", "fence_wood_straight"]},
+        {"type": "hex_grass", "position": {"q": -4, "r": 2}, "addOns": ["building_tower_A", "tree_single_A"]},
+        {"type": "hex_grass", "position": {"q": -7, "r": -1}, "addOns": ["mountain_A_grass", "trees_A_small"]},
+        {"type": "hex_grass", "position": {"q": -6, "r": -1}, "addOns": ["hills_A", "rock_single_A"]},
+
+        {"type": "hex_grass", "position": {"q": 0, "r": -5}, "addOns": ["building_tower_catapult", "flag_red"]},
+        {"type": "hex_grass", "position": {"q": 5, "r": -2}, "addOns": ["building_tower_A", "flag_green"]},
+        {"type": "hex_grass", "position": {"q": -4, "r": 3}, "addOns": ["building_tower_A", "tent"]},
+        {"type": "hex_grass", "position": {"q": 3, "r": 7}, "addOns": ["building_tower_A", "flag_yellow"]},
+
+        {"type": "hex_grass", "position": {"q": 6, "r": 2}, "addOns": ["building_home_A", "building_home_B", "building_well"]},
+        {"type": "hex_grass", "position": {"q": -3, "r": -1}, "addOns": ["building_home_A", "building_blacksmith", "fence_stone_straight"]},
+        {"type": "hex_grass", "position": {"q": 4, "r": 6}, "addOns": ["building_home_B", "building_tavern", "tree_single_A"]},
+        {"type": "hex_grass", "position": {"q": -4, "r": 4}, "addOns": ["building_home_A", "building_well", "fence_wood_straight"]},
+
+        {"type": "hex_grass", "position": {"q": 5, "r": 6}, "addOns": ["building_church"]},
+        {"type": "hex_grass", "position": {"q": 6, "r": 6}, "addOns": ["building_tower_A"]},
+        {"type": "hex_grass", "position": {"q": -5, "r": 6}, "addOns": ["building_windmill"]},
+        {"type": "hex_grass", "position": {"q": -6, "r": 6}, "addOns": ["trees_A_medium"]},
+        {"type": "hex_grass", "position": {"q": 9, "r": 1}, "addOns": ["trees_A_large"]},
+        {"type": "hex_grass", "position": {"q": 9, "r": -1}, "addOns": ["building_mine"]},
+        {"type": "hex_grass", "position": {"q": -8, "r": 0}, "addOns": ["mountain_A"]},
+        {"type": "hex_grass", "position": {"q": -8, "r": 1}, "addOns": ["hills_A"]},
+        {"type": "hex_grass", "position": {"q": 4, "r": -4}, "addOns": ["building_tower_catapult"]},
+        {"type": "hex_grass", "position": {"q": -3, "r": -4}, "addOns": ["tent", "rock_single_A"]}
+      ]
+    }
+  ]
+} 

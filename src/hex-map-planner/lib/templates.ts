@@ -1,8 +1,8 @@
-import { MapTemplate, TemplateId, AVAILABLE_TEMPLATES } from '../types/template';
+import { MapTemplate } from '../types/template';
 import { HexMap, Tile, AddOn } from '../types/map';
 import { generateId, createDefaultMapConfig } from './mapStorage';
 
-export async function loadTemplate(templateId: TemplateId): Promise<MapTemplate> {
+export async function loadTemplate(templateId: string): Promise<MapTemplate> {
   try {
     const response = await fetch(`/templates/${templateId}.json`);
     if (!response.ok) {
@@ -17,7 +17,7 @@ export async function loadTemplate(templateId: TemplateId): Promise<MapTemplate>
 }
 
 export async function createMapFromTemplate(
-  templateId: TemplateId,
+  templateId: string,
   exampleName?: string,
   mapName?: string
 ): Promise<HexMap> {
@@ -84,6 +84,17 @@ export async function createMapFromTemplate(
   };
 }
 
-export function getAvailableTemplates(): TemplateId[] {
-  return [...AVAILABLE_TEMPLATES];
+export async function getAvailableTemplates(): Promise<string[]> {
+  try {
+    const response = await fetch('/api/templates');
+    if (!response.ok) {
+      throw new Error(`Failed to fetch templates: ${response.status}`);
+    }
+    const data = await response.json();
+    return data.templates || [];
+  } catch (error) {
+    console.error('Error fetching available templates:', error);
+    // Fallback to static list if API fails
+    return ['fantasy', 'modern', 'sci-fi', 'nature', 'medieval-realm'];
+  }
 } 

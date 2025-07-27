@@ -18,11 +18,5 @@ export interface MapTemplate {
   examples: TemplateExample[];
 }
 
-export const AVAILABLE_TEMPLATES = [
-  'fantasy',
-  'modern',
-  'sci-fi',
-  'nature'
-] as const;
-
-export type TemplateId = typeof AVAILABLE_TEMPLATES[number]; 
+// Templates are now dynamically discovered from the public/templates directory
+// No need for static template definitions 

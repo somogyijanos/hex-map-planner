@@ -23,14 +23,15 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './tool
 import { Popover, PopoverContent, PopoverTrigger } from './popover';
 import { exportMapAsJSON, importMapFromJSON } from '../lib/mapStorage';
 import { getAvailableTemplates, loadTemplate } from '../lib/templates';
-import { TemplateId } from '../types/template';
+import { TemplateExample } from '../types/template';
+import { TemplateSelector } from './TemplateSelector';
 
 interface MapToolbarProps {
   mapState: MapState;
   currentMap: HexMap;
   onModeChange: (mode: 'add' | 'select' | 'drag' | 'pan' | 'remove') => void;
   onLoadMap: (map: HexMap) => void;
-  onLoadTemplate: (templateId: TemplateId, exampleName?: string) => void;
+  onLoadTemplate: (templateId: string, exampleName?: string) => void;
   onClearMap: () => void;
   onResetView: () => void;
   className?: string;
@@ -85,25 +86,48 @@ export function MapToolbar({
   className = ''
 }: MapToolbarProps) {
   const fileInputRef = React.useRef<HTMLInputElement>(null);
-  const [availableTemplates, setAvailableTemplates] = React.useState<Array<{id: TemplateId, name: string, examples: Array<{name: string, description: string}>}>>([]);
+  const [availableTemplates, setAvailableTemplates] = React.useState<Array<{
+    id: string, 
+    name: string, 
+    description?: string,
+    tileTypes?: Array<{ id: string; name: string; description?: string }>,
+    addOns?: Array<{ id: string; name: string; type?: string; description?: string }>,
+    examples: TemplateExample[]
+  }>>([]);
   const [fileMenuOpen, setFileMenuOpen] = React.useState(false);
   
   // Load available templates on mount
   React.useEffect(() => {
     const loadTemplateInfo = async () => {
-      const templateIds = getAvailableTemplates();
+      const templateIds = await getAvailableTemplates();
       const templateInfo = await Promise.all(
-        templateIds.map(async (id) => {
+        templateIds.map(async (id: string) => {
           try {
             const template = await loadTemplate(id);
-            return { id, name: template.name, examples: template.examples };
+            return { 
+              id, 
+              name: template.name, 
+              description: template.description,
+              tileTypes: template.tileTypes.map(tt => ({
+                id: tt.id,
+                name: tt.name,
+                description: tt.description
+              })),
+              addOns: template.addOns.map(ao => ({
+                id: ao.id,
+                name: ao.name,
+                type: ao.type,
+                description: ao.description
+              })),
+              examples: template.examples 
+            };
           } catch (error) {
             console.error(`Failed to load template ${id}:`, error);
             return null;
           }
         })
       );
-      setAvailableTemplates(templateInfo.filter(t => t !== null) as Array<{id: TemplateId, name: string, examples: Array<{name: string, description: string}>}>);
+      setAvailableTemplates(templateInfo.filter(t => t !== null));
     };
     
     loadTemplateInfo();
@@ -152,7 +176,7 @@ export function MapToolbar({
         : 'Load template? This will replace your current tile types and addons.';
       
       if (confirm(confirmMessage)) {
-        onLoadTemplate(templateId as TemplateId, exampleName || undefined);
+        onLoadTemplate(templateId, exampleName || undefined);
       }
     }
   };
@@ -200,6 +224,20 @@ export function MapToolbar({
             </div>
           </div>
 
+          {/* Templates */}
+          <TemplateSelector
+            availableTemplates={availableTemplates}
+            onTemplateSelect={(templateId, exampleName) => {
+              handleTemplateChange(exampleName ? `${templateId}|${exampleName}` : templateId);
+            }}
+            trigger={
+              <Button variant="outline" size="sm" className="h-8" title="Browse templates">
+                <Palette className="h-4 w-4" />
+                <span className="ml-1.5 hidden lg:inline">Templates</span>
+              </Button>
+            }
+          />
+
           {/* Right section - Quick actions */}
           <div className="flex items-center gap-2">
             <Tooltip>
@@ -242,37 +280,7 @@ export function MapToolbar({
                         Import Map
                       </button>
                       
-                      <div className="h-px bg-border my-1" />
-                      
-                      <div className="px-2 py-1.5 text-sm font-medium text-muted-foreground">Templates</div>
-                      
-                      {availableTemplates.map((template) => (
-                        <div key={template.id}>
-                          <button
-                            onClick={() => {
-                              handleTemplateChange(template.id);
-                              setFileMenuOpen(false);
-                            }}
-                            className="flex items-center w-full px-2 py-2 text-sm rounded-md hover:bg-accent hover:text-accent-foreground"
-                          >
-                            <Palette className="h-4 w-4 mr-2" />
-                            {template.name} (Empty)
-                          </button>
-                          {template.examples.map((example) => (
-                            <button
-                              key={`${template.id}|${example.name}`}
-                              onClick={() => {
-                                handleTemplateChange(`${template.id}|${example.name}`);
-                                setFileMenuOpen(false);
-                              }}
-                              className="flex items-center w-full px-4 py-2 text-sm rounded-md hover:bg-accent hover:text-accent-foreground text-muted-foreground"
-                            >
-                              <span className="mr-2">└</span>
-                              {example.name}
-                            </button>
-                          ))}
-                        </div>
-                      ))}
+
                     </div>
                   </PopoverContent>
                 </Popover>
